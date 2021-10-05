@@ -9,4 +9,5 @@
     <string name="question3">Каспийское море - это озеро?</string>
     <string name="question4">Дельфин это рыба?</string>
     <string name="question5">Пермь столица РФ?</string>
+    <string name="get_answer">Посмотреть ответ</string>
 </resources>

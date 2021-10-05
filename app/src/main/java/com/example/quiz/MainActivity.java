@@ -2,6 +2,7 @@ package com.example.quiz;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,13 +13,14 @@ import android.widget.Toast;
 public class MainActivity extends AppCompatActivity {
     Button yesBtn;
     Button noBtn;
+    Button getAnswer;
     TextView textView;
-    com.example.quiz_1147.Question[] questions = {
-            new com.example.quiz_1147.Question(R.string.question1, true),
-            new com.example.quiz_1147.Question(R.string.question2, true),
-            new com.example.quiz_1147.Question(R.string.question3, true),
-            new com.example.quiz_1147.Question(R.string.question4, false),
-            new com.example.quiz_1147.Question(R.string.question5, false)
+    Question[] questions = {
+            new Question(R.string.question1, true),
+            new Question(R.string.question2, true),
+            new Question(R.string.question3, true),
+            new Question(R.string.question4, false),
+            new Question(R.string.question5, false)
     };
     int questionIndex = 0;
     @Override
@@ -32,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
         yesBtn = findViewById(R.id.yesBtn);
         noBtn = findViewById(R.id.noBtn);
+        getAnswer = findViewById(R.id.getAnswer);
         textView = findViewById(R.id.textView);
         textView.setText(questions[questionIndex].getQuestionText());
 
@@ -47,6 +50,18 @@ public class MainActivity extends AppCompatActivity {
                 checkAnswer(false);
             }
         });
+
+        getAnswer.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                // Создаём намерение (интент) указывая кто и какую активность хочет запустить
+                Intent intent = new Intent(MainActivity.this,AnswerActivity.class);
+                // Кладём дополнения (их может быть несколько)
+                intent.putExtra("answer",questions[questionIndex].isAnswerTrue());
+                // Стартуем активность
+                startActivity(intent);
+            }
+        });
     }
 
     public void checkAnswer(boolean btn){
@@ -58,6 +73,7 @@ public class MainActivity extends AppCompatActivity {
         textView.setText(questions[questionIndex].getQuestionText());
     }
 
+    @Override
     public void onSaveInstanceState(Bundle savedInstanceState){
         super.onSaveInstanceState(savedInstanceState);
         Log.d("SYSTEM INFO: ", "Вызван метод onSaveInstanceState()");

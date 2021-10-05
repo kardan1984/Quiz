@@ -1,4 +1,4 @@
-package com.example.quiz_1147;
+package com.example.quiz;
 
 public class Question {
     private int questionText;
