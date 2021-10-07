@@ -17,7 +17,6 @@ public class MainActivity extends AppCompatActivity {
     Button noBtn;
     Button getAnswer;
     TextView textView;
-    TextView textView2;
     Question[] questions = {
             new Question(R.string.question1, true),
             new Question(R.string.question2, true),
@@ -44,7 +43,6 @@ public class MainActivity extends AppCompatActivity {
         noBtn = findViewById(R.id.noBtn);
         getAnswer = findViewById(R.id.getAnswer);
         textView = findViewById(R.id.textView);
-        textView2 = findViewById(R.id.textView2);
 
         textView.setText(questions[questionIndex].getQuestionText());
 
@@ -95,10 +93,10 @@ public class MainActivity extends AppCompatActivity {
             intent1.putExtra("userAnswers",userAnswers);
             intent1.putExtra("correctAnswers",correctAnswers);
             startActivity(intent1);
-            textView.setText("Вы прошли этот тест");
-            yesBtn.setClickable(false);
-            noBtn.setClickable(false);
-            getAnswer.setClickable(false);
+            textView.setText("Вы уже прошли этот тест");
+            yesBtn.setVisibility(View.GONE);
+            noBtn.setVisibility(View.GONE);
+            getAnswer.setVisibility(View.GONE);
 
         }
         else
