@@ -17,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
     Button noBtn;
     Button getAnswer;
     TextView textView;
+    TextView textView2;
     Question[] questions = {
             new Question(R.string.question1, true),
             new Question(R.string.question2, true),
@@ -43,34 +44,22 @@ public class MainActivity extends AppCompatActivity {
         noBtn = findViewById(R.id.noBtn);
         getAnswer = findViewById(R.id.getAnswer);
         textView = findViewById(R.id.textView);
+        textView2 = findViewById(R.id.textView2);
 
         textView.setText(questions[questionIndex].getQuestionText());
 
         yesBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(questionIndex != questions.length-1){
                     checkAnswer(true);
-                    userAnswer(true);}
-                else {
-                    Intent intent1 = new Intent(MainActivity.this,ResultActivity.class);
-                    intent1.putExtra("userAnswers", Arrays.toString(userAnswers));
-                    intent1.putExtra("correctAnswers",correctAnswers);
-                    startActivity(intent1);}
-                }
+                    }
+
         });
         noBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(questionIndex != questions.length){
                 checkAnswer(false);
-                userAnswer(false);}
-                else {
-                    Intent intent1 = new Intent(MainActivity.this,ResultActivity.class);
-                    intent1.putExtra("userAnswers", Arrays.toString(userAnswers));
-                    intent1.putExtra("correctAnswers",correctAnswers);
-                    startActivity(intent1);}
-            }
+                }
         });
 
         getAnswer.setOnClickListener(new View.OnClickListener() {
@@ -92,16 +81,29 @@ public class MainActivity extends AppCompatActivity {
             Toast.makeText(MainActivity.this, R.string.correct_answer, Toast.LENGTH_SHORT).show(); correctAnswers++;}
         else
             Toast.makeText(MainActivity.this, R.string.incorrect_answer, Toast.LENGTH_SHORT).show();
-        questionIndex = (questionIndex+1)%questions.length;
-        textView.setText(questions[questionIndex].getQuestionText());
-    }
 
-    public void userAnswer (boolean btn){
         String Btn;
-        String Text = " - ваш ответ: ";
-        if (btn) Btn = "ДА";
-        else Btn = "НЕТ";
-        userAnswers[questionIndex] = (questions[questionIndex].getQuestionText()+Text+Btn);
+        if (btn) Btn = "ДА"; else Btn = "НЕТ";
+        userAnswers[questionIndex] = ("\n"+getString(questions[questionIndex].getQuestionText())+" - ваш ответ: "+Btn+"\n");
+
+        questionIndex++;
+
+        if (questionIndex == questions.length){
+            questionIndex = 0;
+            textView.setText(questions[questionIndex].getQuestionText());
+            Intent intent1 = new Intent(MainActivity.this,ResultActivity.class);
+            intent1.putExtra("userAnswers",userAnswers);
+            intent1.putExtra("correctAnswers",correctAnswers);
+            startActivity(intent1);
+            textView.setText("Вы прошли этот тест");
+            yesBtn.setClickable(false);
+            noBtn.setClickable(false);
+            getAnswer.setClickable(false);
+
+        }
+        else
+            textView.setText(questions[questionIndex].getQuestionText());
+
     }
 
     @Override
